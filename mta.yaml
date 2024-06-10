@@ -1,0 +1,140 @@
+_schema-version: "3.1"
+ID: cap-leverx-on-premise
+description: A simple CAP project.
+version: 1.0.0
+modules:
+  - name: cap-leverx-on-premise-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: cap-leverx-on-premise-db
+      - name: cap-leverx-on-premise-auth
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      readiness-health-check-http-endpoint: /health
+      readiness-health-check-type: http
+    build-parameters:
+      builder: npm
+  - name: cap-leverx-on-premise-db-deployer
+    type: hdb
+    path: gen/db
+    requires:
+      - name: cap-leverx-on-premise-db
+    parameters:
+      buildpack: nodejs_buildpack
+  - name: cap-leverx-on-premise-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: cap-leverx-on-premise-destination-service
+        parameters:
+          content-target: true
+      - name: cap-leverx-on-premise_html_repo_host
+        parameters:
+          service-key:
+            name: cap-leverx-on-premise_html_repo_host-key
+      - name: cap-leverx-on-premise-auth
+        parameters:
+          service-key:
+            name: cap-leverx-on-premise-auth-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: incidents_cap_leverx_on_premise_html_repo_host
+              ServiceInstanceName: cap-leverx-on-premise-html5-app-host-service
+              ServiceKeyName: cap-leverx-on-premise_html_repo_host-key
+              sap.cloud.service: incidents
+            - Authentication: OAuth2UserTokenExchange
+              Name: incidents_cap_leverx_on_premise_auth
+              ServiceInstanceName: cap-leverx-on-premise-auth
+              ServiceKeyName: cap-leverx-on-premise-auth-key
+              sap.cloud.service: incidents
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+  - name: cap-leverx-on-premise-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: cap-leverx-on-premise_html_repo_host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - nsincidents.zip
+          name: nsincidents
+          target-path: resources/
+  - name: nsincidents
+    type: html5
+    path: app/incidents
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+resources:
+  - name: cap-leverx-on-premise-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: cap-leverx-on-premise-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: cap-leverx-on-premise-${org}-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+  - name: cap-leverx-on-premise-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: cap-leverx-on-premise-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: cap-leverx-on-premise-destination-service
+      service-plan: lite
+    requires:
+      - name: srv-api
+  - name: cap-leverx-on-premise_html_repo_host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: cap-leverx-on-premise-html5-app-host-service
+      service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
