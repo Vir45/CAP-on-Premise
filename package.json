@@ -6,10 +6,14 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^3.17.0",
+    "@sap-cloud-sdk/http-client": "^3.17.0",
+    "@sap-cloud-sdk/resilience": "^3.17.0",
     "@sap/cds": "^7",
-    "express": "^4",
     "@sap/cds-hana": "^2",
-    "@sap/xssec": "^3"
+    "@sap/xssec": "^3",
+    "dotenv": "^16.4.5",
+    "express": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
@@ -54,7 +58,18 @@
       },
       "[production]": {
         "db": "hana",
-        "auth": "xsuaa"
+        "auth": "xsuaa",
+        "connectivity": true,
+        "destinations": true
+      },
+      "CATALOG": {
+        "kind": "odata-v2",
+        "model": "srv/external/CATALOG",
+        "credentials": {
+          "destination": "LEVERX_PRINCIPLE_PROP",
+          "path": "/sap/opu/odata/iwfnd/catalogservice;v=2",
+          "forwardAuthToken": true
+        }
       }
     }
   },

@@ -131,7 +131,20 @@
                   }
                 }
               },
-              "initialLoad": "Enabled"
+              "initialLoad": "Enabled",
+              "content": {
+                "header": {
+                  "actions": {
+                    "ListReportController": {
+                      "press": ".extension.ns.incidents.ListReportController.onShowCollections",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "show onPremise Data"
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -147,7 +160,16 @@
           }
         }
       }
-    }
+    },
+    "extends": {
+      "extensions": {
+          "sap.ui.controllerExtensions": {
+              "sap.fe.templates.ListReport.ListReportController": {
+                  "controllerName": "ns.incidents.ext.ListReportController"
+              }
+          }
+      }
+  }
   },
   "sap.fiori": {
     "registrationIds": [],

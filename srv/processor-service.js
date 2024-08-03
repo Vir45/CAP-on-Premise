@@ -1,14 +1,14 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
 
 class ProcessorService extends cds.ApplicationService {
   /** Registering custom event handlers */
   init() {
     this.before("UPDATE", "Incidents", (req) => this.onUpdate(req));
     this.before("CREATE", "Incidents", (req) => this.changeUrgencyDueToSubject(req.data));
-
+    this.on("READ", "ServiceCollection1", (req) => this.connectToService(req, "CATALOG"));
     return super.init();
   }
-
+  
   changeUrgencyDueToSubject(data) {
     if (data) {
       const incidents = Array.isArray(data) ? data : [data];
@@ -18,6 +18,12 @@ class ProcessorService extends cds.ApplicationService {
         }
       });
     }
+  }
+
+  async connectToService(req, name) {;
+    const connection = await cds.connect.to(name);
+    const tx = connection.tx(req);
+    return tx.run(req.query)
   }
 
   /** Custom Validation */

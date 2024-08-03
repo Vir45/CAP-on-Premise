@@ -1,0 +1,485 @@
+{
+ "meta": {
+  "creator": "cds-dk 7.9.6"
+ },
+ "$version": "2.0",
+ "definitions": {
+  "CATALOG": {
+   "kind": "service",
+   "@cds.external": true,
+   "@m.IsDefaultEntityContainer": "true",
+   "@sap.supported.formats": "atom json xlsx"
+  },
+  "CATALOG.Annotations": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "2",
+   "elements": {
+    "TechnicalName": {
+     "key": true,
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "Annotation File Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Version": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Annotation File Version",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Description": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Description",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MediaType": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "blob": {
+     "type": "cds.LargeBinary",
+     "@Core.MediaType": "application/octet-stream"
+    },
+    "Services": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.ServiceCollection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "CATALOG.Vocabularies": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.addressable": "false",
+   "@sap.content.version": "2",
+   "elements": {
+    "TechnicalName": {
+     "key": true,
+     "type": "cds.String",
+     "length": 32,
+     "@sap.label": "Vocabulary ID",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Version": {
+     "key": true,
+     "type": "cds.String",
+     "length": 4,
+     "@sap.label": "Vocabulary Version",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SAP__Origin": {
+     "key": true,
+     "type": "cds.String",
+     "length": 16,
+     "@sap.label": "System Alias",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Namespace": {
+     "type": "cds.LargeString",
+     "@sap.label": "Namespace",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Description": {
+     "type": "cds.String",
+     "length": 60,
+     "@sap.label": "Description",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "MediaType": {
+     "type": "cds.String",
+     "length": 30,
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "blob": {
+     "type": "cds.LargeBinary",
+     "@Core.MediaType": "application/octet-stream"
+    }
+   }
+  },
+  "CATALOG.ServiceCollection": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.searchable": "true",
+   "@sap.content.version": "2",
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "Identifier",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Description": {
+     "type": "cds.String",
+     "length": 60,
+     "@m.FC_KeepInContent": "true",
+     "@m.FC_TargetPath": "SyndicationTitle",
+     "@sap.label": "Description",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Title": {
+     "type": "cds.String",
+     "length": 40,
+     "@sap.label": "External Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "Author": {
+     "type": "cds.String",
+     "length": 12,
+     "@m.FC_KeepInContent": "true",
+     "@m.FC_TargetPath": "SyndicationAuthorName",
+     "@sap.label": "User Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "TechnicalServiceVersion": {
+     "type": "cds.Integer",
+     "@sap.label": "Technical Service Version",
+     "@sap.creatable": "false",
+     "notNull": true
+    },
+    "MetadataUrl": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "@sap.semantics": "url",
+     "notNull": true
+    },
+    "TechnicalServiceName": {
+     "type": "cds.String",
+     "length": 35,
+     "@sap.label": "Technical Service Name",
+     "@sap.creatable": "false",
+     "notNull": true
+    },
+    "ImageUrl": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "@sap.semantics": "url",
+     "notNull": true
+    },
+    "ServiceUrl": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "@sap.semantics": "url",
+     "notNull": true
+    },
+    "UpdatedDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "@m.FC_KeepInContent": "true",
+     "@m.FC_TargetPath": "SyndicationUpdated",
+     "@sap.label": "Time Stamp",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ReleaseStatus": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "IsSapService": {
+     "type": "cds.Boolean",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "EntitySets": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.EntitySetCollection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "TagCollection": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.TagCollection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    },
+    "Annotations": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.Annotations",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "CATALOG.TagCollection": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.content.version": "2",
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.LargeString",
+     "@sap.label": "Identifier",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Text": {
+     "type": "cds.LargeString",
+     "@sap.label": "Text",
+     "@sap.creatable": "false",
+     "notNull": true
+    },
+    "Occurrence": {
+     "type": "cds.Integer",
+     "@sap.label": "Description",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Services": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.ServiceCollection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "CATALOG.EntitySetCollection": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.creatable": "false",
+   "@sap.updatable": "false",
+   "@sap.deletable": "false",
+   "@sap.content.version": "2",
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.LargeString",
+     "@m.FC_KeepInContent": "true",
+     "@m.FC_TargetPath": "SyndicationTitle",
+     "@sap.label": "Identifier",
+     "@sap.creatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "SrvIdentifier": {
+     "key": true,
+     "type": "cds.LargeString",
+     "@sap.label": "Service Identifier",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "notNull": true
+    },
+    "Description": {
+     "type": "cds.LargeString",
+     "@sap.label": "Text",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "notNull": true
+    },
+    "TechnicalServiceName": {
+     "type": "cds.LargeString",
+     "@sap.label": "Technical Service Name",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "TechnicalServiceVersion": {
+     "type": "cds.LargeString",
+     "@sap.label": "Technical Service Version",
+     "@sap.creatable": "false",
+     "@sap.updatable": "false",
+     "@sap.sortable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Service": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.ServiceCollection",
+     "keys": []
+    }
+   }
+  },
+  "CATALOG.CatalogCollection": {
+   "kind": "entity",
+   "@cds.external": true,
+   "@cds.persistence.skip": true,
+   "@sap.content.version": "2",
+   "elements": {
+    "ID": {
+     "key": true,
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Description": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "ImageUrl": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Title": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "UpdatedDate": {
+     "type": "cds.DateTime",
+     "@odata.Type": "Edm.DateTime",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Url": {
+     "type": "cds.LargeString",
+     "@sap.creatable": "false",
+     "@sap.filterable": "false",
+     "notNull": true
+    },
+    "Services": {
+     "@cds.ambiguous": "missing on condition?",
+     "type": "cds.Association",
+     "target": "CATALOG.ServiceCollection",
+     "cardinality": {
+      "max": "*"
+     },
+     "keys": []
+    }
+   }
+  },
+  "CATALOG.BestMatchingService": {
+   "kind": "function",
+   "@cds.external": true,
+   "params": {
+    "TechnicalServiceVersionMin": {
+     "type": "cds.Integer",
+     "notNull": true
+    },
+    "TechnicalServiceName": {
+     "type": "cds.LargeString",
+     "notNull": true
+    },
+    "TechnicalServiceVersionMax": {
+     "type": "cds.Integer",
+     "notNull": true
+    }
+   },
+   "returns": {
+    "type": "CATALOG.ServiceCollection"
+   }
+  },
+  "CATALOG.ClearMetadataCacheForService": {
+   "kind": "function",
+   "@cds.external": true,
+   "params": {
+    "ServiceID": {
+     "type": "cds.LargeString",
+     "notNull": true
+    }
+   },
+   "returns": {
+    "type": "CATALOG.ServiceCollection"
+   }
+  }
+ }
+}

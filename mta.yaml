@@ -9,6 +9,8 @@ modules:
     requires:
       - name: cap-leverx-on-premise-db
       - name: cap-leverx-on-premise-auth
+      - name: cap-leverx-on-premise-connectivity
+      - name: cap-leverx-on-premise-destination-service
     provides:
       - name: srv-api
         properties:
@@ -129,6 +131,11 @@ resources:
       service: html5-apps-repo
       service-name: cap-leverx-on-premise-html5-app-host-service
       service-plan: app-host
+  - name: cap-leverx-on-premise-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

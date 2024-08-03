@@ -1,0 +1,29 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="serviceCollectionDilog"
+        showHeader="false"
+        class="sapUiResponsiveContentPadding"
+    >
+        <List
+            id="actionList"
+            busyIndicatorDelay="0"
+            items="{path: '/ServiceCollection1'}"
+        >
+            <StandardListItem
+                id="changeStatusListItem"
+                title="{Title}"
+                description="{Description}"
+            />
+        </List>
+        <endButton>
+            <Button
+                id="closeBtn"
+                text="Close"
+                press=".onCloseCollectionDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
